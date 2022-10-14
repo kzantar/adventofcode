@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.23)
+project(cpp)
+
+set(CMAKE_CXX_STANDARD 23)
+
+add_executable(day1 day1.cpp)
+add_executable(day2 day2.cpp)
