@@ -27,17 +27,19 @@ Command strToCmd(string cmd) {
 struct Submarine {
 	int hor = 0;
 	int depth = 0;
+	int aim = 0;
 
 	void forward(int x) {
 		hor += x;
+		depth += aim * x;
 	}
 
 	void down(int x) {
-		depth += x;
+		aim += x;
 	}
 
 	void up(int x) {
-		depth -= x;
+		aim -= x;
 	}
 
 	void move(Command cmd, int val) {
