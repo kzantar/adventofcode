@@ -6,7 +6,7 @@
 using namespace std;
 
 int main() {
-	string filename = "../1_input.txt";
+	string filename = "../puzzle/1_input.txt";
 	ifstream ifs(filename);
 	if (!ifs.is_open()) {
 		cerr << "failed to open " << filename << endl;

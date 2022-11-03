@@ -122,7 +122,7 @@ int answer2(const vector<int>& nums, vector<Board> boards) {
 
 
 int main() {
-	string filename = "../4_input.txt";
+	string filename = "../puzzle/4_input.txt";
 	ifstream ifs(filename);
 	if (!ifs.is_open()) {
 		cerr << "failed to open " << filename << endl;

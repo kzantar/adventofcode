@@ -62,7 +62,7 @@ struct Submarine {
 };
 
 int main() {
-	string filename = "../2_input.txt";
+	string filename = "../puzzle/2_input.txt";
 	ifstream ifs(filename);
 	if (!ifs.is_open()) {
 		cerr << "failed to open " << filename << endl;

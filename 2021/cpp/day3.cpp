@@ -75,7 +75,7 @@ u_long answer2(const Values& values) {
 }
 
 int main() {
-	string filename = "../3_input.txt";
+	string filename = "../puzzle/3_input.txt";
 	ifstream ifs(filename);
 	if (!ifs.is_open()) {
 		cerr << "failed to open " << filename << endl;
