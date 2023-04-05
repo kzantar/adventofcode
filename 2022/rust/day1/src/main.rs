@@ -1,9 +1,4 @@
-use std::fs;
-use std::io;
-
-fn read_puzzle(path: &str) -> Result<String, io::Error> {
-    fs::read_to_string(path)
-}
+use common::read_puzzle;
 
 fn get_items(puzzle: &String) -> Vec<u32> {
     let items: Vec<u32> = puzzle
@@ -39,7 +34,7 @@ fn solve_part_2(puzzle: &String) -> u32 {
 }
 
 fn main() {
-    let file_name = "../../puzzle/1_input.txt";
+    let file_name = "../puzzle/1_input.txt";
     let puzzle = read_puzzle(file_name).unwrap();
     
     println!("Answer for part 1 is {}", solve_part_1(&puzzle));
