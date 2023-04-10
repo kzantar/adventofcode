@@ -32,7 +32,7 @@ fn score_2(round: &str) -> u32 {
 
 fn solve_part_1(puzzle: &str) -> u32 {
     let result = puzzle.lines().map(|line| score_1(line)).sum();
-    
+
     result
 }
 
@@ -45,7 +45,7 @@ fn solve_part_2(puzzle: &str) -> u32 {
 fn main() {
     let file_name = "../puzzle/2_input.txt";
     let puzzle = read_puzzle(file_name).unwrap();
-    
+
     println!("Answer for part 1 is {}", solve_part_1(&puzzle));
     println!("Answer for part 2 is {}", solve_part_2(&puzzle));
 }
