@@ -13,15 +13,13 @@ fn get_items(puzzle: &String) -> Vec<u32> {
 #[derive(Debug)]
 struct Dial {
     pos: i32,
-    zeros: usize,
 }
 
 impl Dial {
 
-    fn new() -> Self {
+    fn new(pos: i32) -> Self {
         Dial {
-            pos:  50,
-            zeros: 0
+            pos: pos,
         }
     }
 
@@ -30,7 +28,10 @@ impl Dial {
         let mut zeros = 0;
 
         if diff < 0 {
-            zeros += (diff / 100).abs();
+            if self.pos != 0 {
+                zeros += 1 + (diff / 100).abs();
+            }
+
             self.pos = (diff % 100) + 100;
         } else {
             self.pos = diff;
@@ -44,7 +45,9 @@ impl Dial {
         let mut zeros = 0;
 
         if diff >= 100 {
-            zeros += diff / 100;
+            if diff != 100 {
+                zeros += diff / 100;
+            }
             self.pos = diff % 100;
         } else {
             self.pos = diff;
@@ -76,7 +79,7 @@ impl Dial {
 }
 
 fn solve_part_1(puzzle: &str) -> usize {
-    let mut d = Dial::new();
+    let mut d = Dial::new(50);
 
     let mut zeros = 0;
     for line in puzzle.lines() {
@@ -87,10 +90,11 @@ fn solve_part_1(puzzle: &str) -> usize {
 }
 
 fn solve_part_2(puzzle: &str) -> usize {
-    let mut d = Dial::new();
+    let mut d = Dial::new(50);
 
     let mut zeros = 0;
     for line in puzzle.lines() {
+        let prev_pos = d.pos;
         zeros += d.step(line, true);
     }
 
@@ -103,7 +107,7 @@ fn main() {
     let puzzle = read_puzzle(file_name).unwrap();
 
     println!("Answer for part 1 is {}", solve_part_1(&puzzle));
-//    println!("Answer for part 2 is {}", solve_part_2(&puzzle));
+    println!("Answer for part 2 is {}", solve_part_2(&puzzle));
 }
 
 #[cfg(test)]
@@ -112,7 +116,7 @@ mod tests {
 
     #[test]
     fn test_dial_left() {
-        let mut dial = Dial::new();
+        let mut dial = Dial::new(50);
         dial.left(10);
         assert_eq!(dial.pos, 40);
 
@@ -124,8 +128,16 @@ mod tests {
     }
 
     #[test]
+    fn test_dial_left_bug() {
+        let mut dial = Dial::new(1);
+        let zeros = dial.left(2);
+        assert_eq!(dial.pos, 99);
+        assert_eq!(zeros, 1);
+    }
+
+    #[test]
     fn test_dial_right() {
-        let mut dial = Dial::new();
+        let mut dial = Dial::new(50);
         dial.right(10);
         assert_eq!(dial.pos, 60);
 
@@ -138,7 +150,7 @@ mod tests {
 
     #[test]
     fn test_dial_step_1() {
-        let mut dial = Dial::new();
+        let mut dial = Dial::new(50);
 
         let zeros = dial.step("R10", false);
         assert_eq!(dial.pos, 60);
@@ -159,7 +171,7 @@ mod tests {
 
     #[test]
     fn test_dial_step_2() {
-        let mut dial = Dial::new();
+        let mut dial = Dial::new(50);
 
         let zeros = dial.step("R10", true);
         assert_eq!(dial.pos, 60);
@@ -180,5 +192,95 @@ mod tests {
         let zeros = dial.step("L200", true);
         assert_eq!(dial.pos, 99);
         assert_eq!(zeros, 2);
+    }
+
+    #[test]
+    fn test_solution_1() {
+        let mut dial = Dial::new(50);
+
+        let zeros = dial.step("L68", false);
+        assert_eq!(dial.pos, 82);
+        assert_eq!(zeros, 0);
+
+        let zeros = dial.step("L30", false);
+        assert_eq!(dial.pos, 52);
+        assert_eq!(zeros, 0);
+
+        let zeros = dial.step("R48", false);
+        assert_eq!(dial.pos, 0);
+        assert_eq!(zeros, 1);
+
+        let zeros = dial.step("L5", false);
+        assert_eq!(dial.pos, 95);
+        assert_eq!(zeros, 0);
+
+        let zeros = dial.step("R60", false);
+        assert_eq!(dial.pos, 55);
+        assert_eq!(zeros, 0);
+
+        let zeros = dial.step("L55", false);
+        assert_eq!(dial.pos, 0);
+        assert_eq!(zeros, 1);
+
+        let zeros = dial.step("L1", false);
+        assert_eq!(dial.pos, 99);
+        assert_eq!(zeros, 0);
+
+        let zeros = dial.step("L99", false);
+        assert_eq!(dial.pos, 0);
+        assert_eq!(zeros, 1);
+
+        let zeros = dial.step("R14", false);
+        assert_eq!(dial.pos, 14);
+        assert_eq!(zeros, 0);
+
+        let zeros = dial.step("L82", false);
+        assert_eq!(dial.pos, 32);
+        assert_eq!(zeros, 0);
+    }
+
+    #[test]
+    fn test_solution_2() {
+        let mut dial = Dial::new(50);
+
+        let zeros = dial.step("L68", true);
+        assert_eq!(dial.pos, 82);
+        assert_eq!(zeros, 1);
+
+        let zeros = dial.step("L30", true);
+        assert_eq!(dial.pos, 52);
+        assert_eq!(zeros, 0);
+
+        let zeros = dial.step("R48", true);
+        assert_eq!(dial.pos, 0);
+        assert_eq!(zeros, 1);
+
+        let zeros = dial.step("L5", true);
+        assert_eq!(dial.pos, 95);
+        assert_eq!(zeros, 0);
+
+        let zeros = dial.step("R60", true);
+        assert_eq!(dial.pos, 55);
+        assert_eq!(zeros, 1);
+
+        let zeros = dial.step("L55", true);
+        assert_eq!(dial.pos, 0);
+        assert_eq!(zeros, 1);
+
+        let zeros = dial.step("L1", true);
+        assert_eq!(dial.pos, 99);
+        assert_eq!(zeros, 0);
+
+        let zeros = dial.step("L99", true);
+        assert_eq!(dial.pos, 0);
+        assert_eq!(zeros, 1);
+
+        let zeros = dial.step("R14", true);
+        assert_eq!(dial.pos, 14);
+        assert_eq!(zeros, 0);
+
+        let zeros = dial.step("L82", true);
+        assert_eq!(dial.pos, 32);
+        assert_eq!(zeros, 1);
     }
 }
