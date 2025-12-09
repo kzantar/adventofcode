@@ -29,10 +29,19 @@ impl Dial {
 
         if diff < 0 {
             if self.pos != 0 {
-                zeros += 1 + (diff / 100).abs();
+                zeros += 1;
+            }
+            if diff.abs() >= 100 {
+                zeros += diff.abs() / 100;
             }
 
-            self.pos = (diff % 100) + 100;
+            self.pos = diff % 100;
+            if self.pos < 0 {
+                self.pos += 100;
+            }
+            if self.pos == 0 {
+                zeros -= 1;
+            }
         } else {
             self.pos = diff;
         }
@@ -45,10 +54,11 @@ impl Dial {
         let mut zeros = 0;
 
         if diff >= 100 {
-            if diff != 100 {
-                zeros += diff / 100;
-            }
+            zeros += diff / 100;
             self.pos = diff % 100;
+            if self.pos == 0 {
+                zeros -= 1;
+            }
         } else {
             self.pos = diff;
         }
@@ -138,14 +148,60 @@ mod tests {
     #[test]
     fn test_dial_right() {
         let mut dial = Dial::new(50);
-        dial.right(10);
+        let zeros = dial.right(10);
         assert_eq!(dial.pos, 60);
+        assert_eq!(zeros, 0);
 
-        dial.right(45);
+        let zeros = dial.right(45);
         assert_eq!(dial.pos, 5);
+        assert_eq!(zeros, 1);
 
-        dial.right(200);
+        let zeros = dial.right(200);
         assert_eq!(dial.pos, 5);
+        assert_eq!(zeros, 2);
+    }
+
+    #[test]
+    fn test_boundaries() {
+        let mut dial = Dial::new(1);
+        let zeros = dial.step("L1", true);
+        assert_eq!(dial.pos, 0);
+        assert_eq!(zeros, 1);
+
+        dial.pos = 1;
+        let zeros = dial.step("L101", true);
+        assert_eq!(dial.pos, 0);
+        assert_eq!(zeros, 2);
+
+        dial.pos = 99;
+        let zeros = dial.step("R1", true);
+        assert_eq!(dial.pos, 0);
+        assert_eq!(zeros, 1);
+
+        dial.pos = 99;
+        let zeros = dial.step("R101", true);
+        assert_eq!(dial.pos, 0);
+        assert_eq!(zeros, 2);
+
+        dial.pos = 0;
+        let zeros = dial.step("R100", true);
+        assert_eq!(dial.pos, 0);
+        assert_eq!(zeros, 1);
+
+        dial.pos = 0;
+        let zeros = dial.step("L100", true);
+        assert_eq!(dial.pos, 0);
+        assert_eq!(zeros, 1);
+
+        dial.pos = 0;
+        let zeros = dial.step("R200", true);
+        assert_eq!(dial.pos, 0);
+        assert_eq!(zeros, 2);
+
+        dial.pos = 0;
+        let zeros = dial.step("L200", true);
+        assert_eq!(dial.pos, 0);
+        assert_eq!(zeros, 2);
     }
 
     #[test]
