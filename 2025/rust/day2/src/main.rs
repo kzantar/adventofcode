@@ -17,7 +17,7 @@ fn check_value_2(val: &str) -> bool {
     let chars: Vec<char> = s.chars().collect();
     let n = chars.len();
 
-    for i in 1..=n/2 {
+    for i in 1..=n / 2 {
         let mut chunks = chars.chunks(i);
         let first = chunks.next().unwrap();
         if chunks.all(|x| x == first) {
@@ -68,7 +68,6 @@ fn main() {
 
     println!("Answer for part 1 is {}", solve_part_1(&puzzle));
     println!("Answer for part 2 is {}", solve_part_2(&puzzle));
-
 }
 
 #[cfg(test)]
@@ -106,11 +105,17 @@ mod tests {
         assert_eq!(find_invalid("11-22", check_value_1), vec![11, 22]);
         assert_eq!(find_invalid("95-115", check_value_1), vec![99]);
         assert_eq!(find_invalid("998-1012", check_value_1), vec![1010]);
-        assert_eq!(find_invalid("1188511880-1188511890", check_value_1), vec![1188511885]);
+        assert_eq!(
+            find_invalid("1188511880-1188511890", check_value_1),
+            vec![1188511885]
+        );
         assert_eq!(find_invalid("222220-222224", check_value_1), vec![222222]);
         assert_eq!(find_invalid("1698522-1698528", check_value_1), vec![]);
         assert_eq!(find_invalid("446443-446449", check_value_1), vec![446446]);
-        assert_eq!(find_invalid("38593856-38593862", check_value_1), vec![38593859]);
+        assert_eq!(
+            find_invalid("38593856-38593862", check_value_1),
+            vec![38593859]
+        );
         assert_eq!(find_invalid("565653-565659", check_value_1), vec![]);
         assert_eq!(find_invalid("824824821-824824827", check_value_1), vec![]);
         assert_eq!(find_invalid("2121212118-2121212124", check_value_1), vec![]);
@@ -121,13 +126,25 @@ mod tests {
         assert_eq!(find_invalid("11-22", check_value_2), vec![11, 22]);
         assert_eq!(find_invalid("95-115", check_value_2), vec![99, 111]);
         assert_eq!(find_invalid("998-1012", check_value_2), vec![999, 1010]);
-        assert_eq!(find_invalid("1188511880-1188511890", check_value_2), vec![1188511885]);
+        assert_eq!(
+            find_invalid("1188511880-1188511890", check_value_2),
+            vec![1188511885]
+        );
         assert_eq!(find_invalid("222220-222224", check_value_2), vec![222222]);
         assert_eq!(find_invalid("1698522-1698528", check_value_2), vec![]);
         assert_eq!(find_invalid("446443-446449", check_value_2), vec![446446]);
-        assert_eq!(find_invalid("38593856-38593862", check_value_2), vec![38593859]);
+        assert_eq!(
+            find_invalid("38593856-38593862", check_value_2),
+            vec![38593859]
+        );
         assert_eq!(find_invalid("565653-565659", check_value_2), vec![565656]);
-        assert_eq!(find_invalid("824824821-824824827", check_value_2), vec![824824824]);
-        assert_eq!(find_invalid("2121212118-2121212124", check_value_2), vec![2121212121]);
+        assert_eq!(
+            find_invalid("824824821-824824827", check_value_2),
+            vec![824824824]
+        );
+        assert_eq!(
+            find_invalid("2121212118-2121212124", check_value_2),
+            vec![2121212121]
+        );
     }
 }

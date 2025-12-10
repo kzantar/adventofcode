@@ -19,24 +19,6 @@ fn ranges() {
     }
 }
 
-fn chunks() {
-    let s = "112233".to_string();
-    let chars: Vec<char> = s.chars().collect();
-    let n = chars.len();
-
-    println!("{:?}", chars);
-    for i in 1..=n/2 {
-        println!("i = {i}");
-        let mut chunks = chars.chunks(i);
-        let first = chunks.next().unwrap();
-        for rest in chunks {
-            if first != rest {
-                return false;
-            }
-        }
-    }
-}
-
 fn slices() {
     let vec = vec![1, 2, 3, 4];
     let int_slice = &vec[..2];
@@ -46,7 +28,19 @@ fn slices() {
     }
 }
 
+fn vec_splits() {
+    let v = vec![1, 2, 3, 4];
+
+    println!("split_at(0) -> {:?}", v.split_at(0));
+    println!("split_at(2) -> {:?}", v.split_at(2));
+    println!("split_at(3) -> {:?}", v.split_at(3));
+
+    println!("&v[..2] -> {:?}", &v[..2]);
+    println!("&v[..3] -> {:?}", &v[..3]);
+    println!("&v[3..] -> {:?}", &v[3..]);
+    println!("&v[3..3] -> {:?}", &v[3..3]);
+}
 
 fn main() {
-    chunks();
+    vec_splits();
 }
