@@ -16,11 +16,8 @@ struct Dial {
 }
 
 impl Dial {
-
     fn new(pos: i32) -> Self {
-        Dial {
-            pos: pos,
-        }
+        Dial { pos: pos }
     }
 
     fn left(&mut self, num: i32) -> usize {
@@ -84,7 +81,6 @@ impl Dial {
         } else {
             zeros_at_end
         }
-
     }
 }
 
@@ -110,7 +106,6 @@ fn solve_part_2(puzzle: &str) -> usize {
 
     zeros
 }
-
 
 fn main() {
     let file_name = "../puzzle/1_input.txt";
