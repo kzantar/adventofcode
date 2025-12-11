@@ -28,6 +28,23 @@ fn slices() {
     }
 }
 
+fn vec_extends() {
+    let mut dst = Vec::<u32>::new();
+    let src = vec![1, 2, 3, 4, 5];
+
+    dst.extend_from_slice(&src[..2]);
+
+    println!("src = {:?}", src);
+    println!("dst = {:?}", dst);
+}
+
+fn vec_reduce() {
+    let mut v = vec![1, 0, 1, 0, 1, 0, 0, 1];
+
+    let res = v.iter().all(|&x| x == 1);
+    println!("{:?}", res);
+}
+
 fn vec_splits() {
     let v = vec![1, 2, 3, 4];
 
@@ -42,5 +59,6 @@ fn vec_splits() {
 }
 
 fn main() {
-    vec_splits();
+     vec_extends();
+     vec_reduce();
 }
