@@ -44,15 +44,20 @@ fn find_max_joltage_2(value: &str, cnt: usize) -> u32 {
     let mut rest = bank.split_off(cnt);
 
     while rest.len() > 0 {
+        let val = rest.pop_front().unwrap();
         println!("bank => {:?}", bank);
         println!("rest => {:?}", rest);
-        let val = rest.pop_front().unwrap();
         println!("val => {:?}", val);
         // Result consists values less then i
-        if bank.iter().any(|&x| x < val) {
-            bank.retain(|&x| x >= val);
-            bank.push_back(val);
+        if rest.len() + 1 >= cnt {
+            if bank.iter().any(|&x| x < val) {
+                bank.retain(|&x| x >= val);
+                bank.push_back(val);
+            } else if bank.len() < cnt {
+                bank.push_back(val);
+            }
         }
+        
         println!("bank => {:?}", bank);
         println!();
     }
