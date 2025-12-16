@@ -38,50 +38,47 @@ fn find_max_joltage_1(value: &str) -> u32 {
     }
 }
 
-fn find_max_joltage_2(value: &str, cnt: usize) -> u32 {
-    let mut bank: VecDeque<u32> = value.chars().map(|c| c.to_digit(10).unwrap()).collect();
 
-    let mut rest = bank.split_off(cnt);
+fn find_max_joltage_2(value: &str, cnt: usize) -> u64 {
+    let mut bank: VecDeque<u64> = value
+        .chars()
+        .map(|c| c.to_digit(10).unwrap())
+        .map(|n| n as u64)
+        .collect();
 
-    while rest.len() > 0 {
-        let val = rest.pop_front().unwrap();
-        println!("bank => {:?}", bank);
-        println!("rest => {:?}", rest);
-        println!("val => {:?}", val);
-        // Result consists values less then i
-        if rest.len() + 1 >= cnt {
-            if bank.iter().any(|&x| x < val) {
-                bank.retain(|&x| x >= val);
-                bank.push_back(val);
-            } else if bank.len() < cnt {
-                bank.push_back(val);
+    'outer: while bank.len() > cnt {
+        for i in 0..bank.len().saturating_sub(1) {
+            if bank[i] < bank[i+1] {
+                bank.remove(i);
+                continue 'outer;
             }
         }
-        
-        println!("bank => {:?}", bank);
-        println!();
+        break;
+    }
+    if bank.len() > cnt {
+        bank.truncate(cnt);
     }
 
-    0
-
+    bank.iter().fold(0u64, |acc, &d| acc * 10 + d)
 }
 
 fn solve_part_1(puzzle: &str) -> u32 {
     puzzle.lines().map(find_max_joltage_1).sum()
 }
 
-fn solve_part_2(puzzle: &str) -> u32 {
-    0
+fn solve_part_2(puzzle: &str) -> u64 {
+    puzzle
+        .lines()
+        .map(|line| find_max_joltage_2(line, 12))
+        .sum()
 }
 
 fn main() {
     let file_name = "../puzzle/3_input.txt";
     let puzzle = read_puzzle(file_name).unwrap();
 
-    find_max_joltage_2("234234234234278", 4);
-
-    //    println!("Answer for part 1 is {}", solve_part_1(&puzzle));
-    //    println!("Answer for part 2 is {}", solve_part_2(&puzzle));
+    println!("Answer for part 1 is {}", solve_part_1(&puzzle));
+    println!("Answer for part 2 is {}", solve_part_2(&puzzle));
 }
 
 #[cfg(test)]
@@ -102,13 +99,13 @@ mod tests {
 
     #[test]
     fn test_find_max_joltage_2() {
-        assert_eq!(find_max_joltage_2("987654321111111"), 987654321111);
-        assert_eq!(find_max_joltage_2("811111111111119"), 811111111119);
-        assert_eq!(find_max_joltage_2("234234234234278"), 434234234278);
-        assert_eq!(find_max_joltage_2("818181911112111"), 888911112111);
+        assert_eq!(find_max_joltage_2("987654321111111", 12), 987654321111);
+        assert_eq!(find_max_joltage_2("811111111111119", 12), 811111111119);
+        assert_eq!(find_max_joltage_2("234234234234278", 12), 434234234278);
+        assert_eq!(find_max_joltage_2("818181911112111", 12), 888911112111);
 
-        assert_eq!(find_max_joltage_2("818181911912111"), 99);
-        assert_eq!(find_max_joltage_2("918181191112119"), 99);
-        assert_eq!(find_max_joltage_2("918181911112111"), 99);
+        assert_eq!(find_max_joltage_2("818181911912111", 2), 99);
+        assert_eq!(find_max_joltage_2("918181191112119", 2), 99);
+        assert_eq!(find_max_joltage_2("918181911112111", 2), 99);
     }
 }
