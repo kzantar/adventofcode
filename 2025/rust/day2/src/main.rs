@@ -63,7 +63,7 @@ fn solve_part_2(puzzle: &str) -> i64 {
 }
 
 fn main() {
-    let file_name = "../puzzle/2_input.txt";
+    let file_name = "../puzzle/2/input.txt";
     let puzzle = read_puzzle(file_name).unwrap();
 
     println!("Answer for part 1 is {}", solve_part_1(&puzzle));

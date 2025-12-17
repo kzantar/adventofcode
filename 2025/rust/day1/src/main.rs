@@ -108,7 +108,7 @@ fn solve_part_2(puzzle: &str) -> usize {
 }
 
 fn main() {
-    let file_name = "../puzzle/1_input.txt";
+    let file_name = "../puzzle/1/input.txt";
     let puzzle = read_puzzle(file_name).unwrap();
 
     println!("Answer for part 1 is {}", solve_part_1(&puzzle));
