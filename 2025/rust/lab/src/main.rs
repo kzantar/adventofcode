@@ -59,6 +59,6 @@ fn vec_splits() {
 }
 
 fn main() {
-     vec_extends();
-     vec_reduce();
+    vec_extends();
+    vec_reduce();
 }

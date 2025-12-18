@@ -38,7 +38,6 @@ fn find_max_joltage_1(value: &str) -> u32 {
     }
 }
 
-
 fn find_max_joltage_2(value: &str, cnt: usize) -> u64 {
     let mut bank: VecDeque<u64> = value
         .chars()
@@ -48,7 +47,7 @@ fn find_max_joltage_2(value: &str, cnt: usize) -> u64 {
 
     'outer: while bank.len() > cnt {
         for i in 0..bank.len().saturating_sub(1) {
-            if bank[i] < bank[i+1] {
+            if bank[i] < bank[i + 1] {
                 bank.remove(i);
                 continue 'outer;
             }
