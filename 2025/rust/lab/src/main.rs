@@ -1,5 +1,7 @@
 #![allow(dead_code, unused)]
 
+use std::collections::HashSet;
+
 fn reminders() {
     println!("-1 / 100 = {}", -1 / 100);
     println!("-1 % 100 = {}", -1 % 100);
@@ -11,12 +13,6 @@ fn reminders() {
     println!("-101 % 100 = {}", -101 % 100);
     println!("-18 % 100 = {}", -18 % 100);
     println!("-100 % 100 = {}", -100 % 100);
-}
-
-fn ranges() {
-    for s in '1'..='5' {
-        println!("{:?}", s);
-    }
 }
 
 fn slices() {
@@ -58,7 +54,31 @@ fn vec_splits() {
     println!("&v[3..3] -> {:?}", &v[3..3]);
 }
 
+fn sets() {
+    let mut nums: HashSet<u32> = HashSet::new();
+
+    nums.extend([3, 4, 5].iter());
+    nums.extend([4, 5, 6].iter());
+
+    println!("{nums:?}");
+    println!("Len of nums is {}", nums.len());
+}
+
+fn ranges() {
+    let mut range = 1..=5;
+    let col: Vec<u8> = range.collect();
+
+    println!("{col:?}");
+}
+
+fn windows() {
+    let mut v = vec![1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+    for w in v.windows(2) {
+        println!("{w:?}");
+    }
+}
+
 fn main() {
-    vec_extends();
-    vec_reduce();
+    windows();
 }
